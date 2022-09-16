@@ -2,6 +2,7 @@ import type { BusinessType } from "./business-type";
 import type { ServiceType } from "./service-type";
 
 export interface Ship {
+  id: string;
   prefecture: string;
   area: string;
   title: string;

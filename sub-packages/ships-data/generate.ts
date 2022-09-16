@@ -9,10 +9,11 @@ import {
   readFileSync,
   writeFileSync,
 } from "fs";
-import { join } from "path";
+import { join, basename } from "path";
 
-const adapt = (source: SourceData): Ship => {
+const adapt = (source: SourceData, id: string): Ship => {
   return {
+    id,
     prefecture: source.県,
     area: source.エリア,
     title: source.名前,
@@ -45,11 +46,21 @@ const getFileList = (dir: string): string[] => {
     return v.isFile() ? [join(dir, v.name)] : getFileList(join(dir, v.name));
   });
 };
+
+const getDirName = (path: string): string => {
+  const split = path.split("/");
+  return split[split.length - 2];
+};
+
 (async () => {
   const filePaths = getFileList(`${__dirname}/sources`);
   const ships = filePaths.map((path) => {
     const rawData = JSON.parse(readFileSync(path, "utf8"));
-    return adapt(rawData);
+    const id = `${getDirName(path)}-${basename(path)}`.replace(
+      /\.[a-zA-Z]*/,
+      ""
+    );
+    return adapt(rawData, id);
   });
 
   const dir = `${__dirname}/../../src/generated/`;
