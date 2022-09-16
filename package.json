@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "postinstall": "npm run generate:ships",
     "dev": "next dev --port 3500",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --passWithNoTests",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "generate:ships": "ts-node sub-packages/ships-data/generate.ts"
   },
   "dependencies": {
     "next": "12.3.0",
