@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { createShipsFetcher } from '../../../../shared/interactors/ships';
 import styles from './index.module.scss';
+import { BusinessType } from '../../../../shared/models/ship/business-type';
 
 export const ShipsList = (): JSX.Element => {
   const { fetcher, cacheKey } = createShipsFetcher();
@@ -17,6 +18,22 @@ export const ShipsList = (): JSX.Element => {
                 <p className={styles.Item_area}>{ship.area}</p>
               </div>
               <h3 className={styles.Item_h}>{ship.title}</h3>
+              <p className={styles.Item_businessType}>
+                {ship.businessType === BusinessType.GuideService ? (
+                  <>
+                    <span className={`material-symbols-outlined ${styles.Item_businessType_icon}`}>sailing</span>
+                    <span className={styles.Item_businessType_text}>ガイド船</span>
+                  </>
+                ) : (
+                  <>
+                    <span className={`material-symbols-outlined ${styles.Item_businessType_icon}`}>
+                      directions_boat
+                    </span>
+                    <span className={styles.Item_businessType_text}>遊漁船</span>
+                  </>
+                )}
+              </p>
+
               <p className={styles.Item_fishingType}>{ship.fishingType.join(' , ')}</p>
             </li>
           ))}
