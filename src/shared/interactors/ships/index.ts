@@ -1,6 +1,6 @@
-import { shipsEndpointUrl, shipsGet } from "../../lib/api/ships/get";
-import { CreateFetcher, Fetcher } from "../fetcher";
-import { Ship } from "../../models/ship/ship";
+import { shipsEndpointUrl, shipsGet } from '../../lib/api/ships/get';
+import { CreateFetcher, Fetcher } from '../fetcher';
+import { Ship } from '../../models/ship/ship';
 
 export const createShipsFetcher: CreateFetcher<Ship[]> = (): {
   fetcher: Fetcher<Ship[]>;

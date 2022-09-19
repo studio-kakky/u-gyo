@@ -1,8 +1,8 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import useSWR from "swr";
-import styles from "../styles/Home.module.css";
-import { createShipsFetcher } from "../shared/interactors/ships";
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import useSWR from 'swr';
+import styles from '../styles/Home.module.css';
+import { createShipsFetcher } from '../shared/interactors/ships';
 
 const Home: NextPage = () => {
   const { fetcher, cacheKey } = createShipsFetcher();

@@ -1,5 +1,5 @@
-import { BusinessType } from "../../../models/ship/business-type";
-import { ServiceType } from "../../../models/ship/service-type";
+import { BusinessType } from '../../../models/ship/business-type';
+import { ServiceType } from '../../../models/ship/service-type';
 
 export interface ShipResponse {
   id: string;
