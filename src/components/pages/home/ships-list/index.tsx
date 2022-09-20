@@ -2,7 +2,8 @@ import useSWR from 'swr';
 import { createShipsFetcher } from '../../../../shared/interactors/ships';
 import styles from './index.module.scss';
 import { BusinessType } from '../../../../shared/models/ship/business-type';
-import { filterShips } from '../../../../shared/models/ship/filter-ships';
+import { filterShips } from './filter-ships';
+import { makeViewModel } from './view-model';
 
 interface Props {
   searchWords?: string[];
@@ -10,7 +11,9 @@ interface Props {
 
 export const ShipsList = ({ searchWords }: Props): JSX.Element => {
   const { fetcher, cacheKey } = createShipsFetcher();
-  const { data: ships } = useSWR(cacheKey, fetcher);
+  const { data: ships } = useSWR(cacheKey, () => {
+    return fetcher().then((ships) => ships.map(makeViewModel));
+  });
 
   const filtered = ships ? filterShips(ships, searchWords) : [];
 
