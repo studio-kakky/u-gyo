@@ -24,22 +24,26 @@ export const ShipsList = ({ searchWords }: Props): JSX.Element => {
                 <p className={styles.Item_prefecture}>{ship.prefecture}</p>
                 <p className={styles.Item_area}>{ship.area}</p>
               </div>
-              <h3 className={styles.Item_h}>{ship.title}</h3>
-              <p className={styles.Item_businessType}>
-                {ship.businessType === BusinessType.GuideService ? (
-                  <>
-                    <span className={`material-symbols-outlined ${styles.Item_businessType_icon}`}>sailing</span>
-                    <span className={styles.Item_businessType_text}>ガイド船</span>
-                  </>
-                ) : (
-                  <>
-                    <span className={`material-symbols-outlined ${styles.Item_businessType_icon}`}>
-                      directions_boat
-                    </span>
-                    <span className={styles.Item_businessType_text}>遊漁船</span>
-                  </>
-                )}
-              </p>
+              <div className={styles.Item_header}>
+                <h3 className={styles.Item_header_h}>{ship.title}</h3>
+                <p className={styles.Item_header_businessType}>
+                  {ship.businessType === BusinessType.GuideService ? (
+                    <>
+                      <span className={`material-symbols-outlined ${styles.Item_header_businessType_icon}`}>
+                        sailing
+                      </span>
+                      <span className={styles.Item_header_businessType_text}>ガイド船</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className={`material-symbols-outlined ${styles.Item_businessType_icon}`}>
+                        directions_boat
+                      </span>
+                      <span className={styles.Item_businessType_text}>遊漁船</span>
+                    </>
+                  )}
+                </p>
+              </div>
 
               <p className={styles.Item_fishingType}>{ship.fishingType.join(' , ')}</p>
             </li>
