@@ -1,0 +1,16 @@
+.Layout {
+  &_util {
+    position: fixed;
+    left: 0;
+    top: 40px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: #fff;
+    padding: 10px 0;
+  }
+
+  &_shipList {
+    padding-top: 40px;
+  }
+}
