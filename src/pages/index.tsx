@@ -1,16 +1,8 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import { ShipsList } from '../components/pages/index/ships-list';
+import { HomePage } from '../components/pages/home';
 
 const Home: NextPage = () => {
-  return (
-    <>
-      <Head>
-        <title>U魚</title>
-      </Head>
-      <ShipsList />
-    </>
-  );
+  return <HomePage />;
 };
 
 export default Home;

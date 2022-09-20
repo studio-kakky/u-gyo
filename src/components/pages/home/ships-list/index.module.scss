@@ -1,0 +1,54 @@
+.List {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  list-style: none;
+}
+
+.Item {
+  width: 100%;
+  margin-bottom: 20px;
+  &_header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    &_h {
+      grid-column: 1;
+      margin: 0;
+    }
+    &_businessType {
+      min-width: 80px;
+      display: flex;
+      align-items: center;
+      margin: 0;
+      gap:4px;
+      &_icon {
+        font-size: 14px;
+      }
+      &_text {
+        font-size: 12px;
+      }
+    }
+  }
+
+  &_place {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    font-size: 0.8em;
+  }
+
+
+  &_fishingType {
+    margin: 8px 0 0;
+    font-size: 0.8rem;
+  }
+
+  &_prefecture {
+    margin: 0;
+  }
+  &_area {
+    margin: 0;
+  }
+}
