@@ -13,7 +13,9 @@
     "generate:ships": "ts-node sub-packages/ships-data/generate.ts"
   },
   "dependencies": {
+    "deck.gl": "^8.8.11",
     "next": "12.3.0",
+    "npm": "^8.19.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.54.9",
