@@ -1,3 +1,5 @@
+@use "../../../styles/_core/media-query" as mq;
+
 .Layout {
   &_util {
     position: fixed;
@@ -6,22 +8,68 @@
     display: flex;
     width: 100%;
     justify-content: center;
-    padding: 16px 0;
+    align-items: center;
+    padding: 16px 2rem;
+    background-color: #fff;
     z-index: 1;
   }
 
   &_content {
-    padding-top: 56px;
-  }
+    padding: 62px 2rem;
 
-  &_map {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    margin-bottom: 32px;
-  }
+    &_map {
+      position: fixed;
+      left: 50%;
+      width: calc(50% - 1rem);
+      height: calc(100vh - 105px);
+      margin-bottom: 32px;
+    }
 
-  &_shipList {
-    padding: 0 2rem;
+    &_shipList {
+      width: 100%;
+      padding: 0;
+    }
+
+    &.--mapIsOpened {
+      .Layout_content_shipList {
+        width: 50%;
+        padding: 0 1rem 0 0;
+      }
+    }
+
+    @include mq.down("md") {
+      &_map {
+        left: 0;
+        width: 100%;
+        height: 200px;
+      }
+
+      &.--mapIsOpened {
+        .Layout_content_shipList {
+          width: 100%;
+          padding: 216px 0 0;
+        }
+      }
+    }
+  }
+}
+
+.MapButton {
+  background: none;
+  border: none;
+  outline: none;
+  position: relative;
+  display: block;
+  line-height: 1;
+  cursor: pointer;
+  height: 24px;
+  &.--opened {
+    span {
+      color: #3CAA08;
+    }
+  }
+  span {
+    vertical-align: bottom;
+    color: #999;
   }
 }

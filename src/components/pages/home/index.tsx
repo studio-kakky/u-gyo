@@ -8,6 +8,7 @@ import { ShipMap } from '../../shared/map/map';
 
 export const HomePage = (): JSX.Element => {
   const [searchWords, setSearchWords] = useState<string[]>([]);
+  const [mapIsOpened, setMapIsOpened] = useState<boolean>(true);
 
   return (
     <>
@@ -16,12 +17,20 @@ export const HomePage = (): JSX.Element => {
       </Head>
       <div className={styles.Layout_util}>
         <SearchBox setSearchWords={setSearchWords} />
+        <button
+          className={`${styles.MapButton} ${mapIsOpened ? styles['--opened'] : ''}`}
+          onClick={() => setMapIsOpened(!mapIsOpened)}
+        >
+          <span className="material-symbols-outlined">public</span>
+        </button>
       </div>
-      <div className={styles.Layout_content}>
-        <div className={styles.Layout_map}>
-          <ShipMap />
-        </div>
-        <div className={styles.Layout_shipList}>
+      <div className={`${styles.Layout_content} ${mapIsOpened ? styles['--mapIsOpened'] : ''}`}>
+        {mapIsOpened && (
+          <div className={styles.Layout_content_map}>
+            <ShipMap />
+          </div>
+        )}
+        <div className={styles.Layout_content_shipList}>
           <ShipsList searchWords={searchWords} />
         </div>
       </div>
