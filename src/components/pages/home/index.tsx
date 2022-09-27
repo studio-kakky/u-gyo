@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 
 import { ShipsList } from './ships-list';
-import { SearchBox } from '../../search-box';
+import { SearchBox } from '../../shared/search-box';
 import styles from './index.module.scss';
 
 export const HomePage = (): JSX.Element => {
