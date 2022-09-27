@@ -10,7 +10,14 @@
     padding: 16px 0;
   }
 
-  &_shipList {
+  &_content {
     padding-top: 56px;
+  }
+
+  &_map {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin-bottom: 32px;
   }
 }
