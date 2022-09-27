@@ -6,8 +6,8 @@
     display: flex;
     width: 100%;
     justify-content: center;
-    background-color: #fff;
     padding: 16px 0;
+    z-index: 1;
   }
 
   &_content {
@@ -19,5 +19,9 @@
     width: 100%;
     height: 300px;
     margin-bottom: 32px;
+  }
+
+  &_shipList {
+    padding: 0 2rem;
   }
 }
