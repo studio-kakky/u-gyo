@@ -1,5 +1,6 @@
 import type { BusinessType } from './business-type';
 import type { ServiceType } from './service-type';
+import { LatLng } from '../lat-lng/lat-lng';
 
 export interface Ship {
   id: string;
@@ -14,10 +15,7 @@ export interface Ship {
   facebook: string | null;
   line: string | null;
   instagram: string | null;
-  location: {
-    lat: number;
-    lng: number;
-  };
+  location: LatLng;
   businessType: BusinessType;
   serviceType: ServiceType[];
   fishingType: string[];

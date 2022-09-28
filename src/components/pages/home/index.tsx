@@ -4,11 +4,22 @@ import { useState } from 'react';
 import { ShipsList } from './ships-list';
 import { SearchBox } from '../../shared/search-box';
 import styles from './index.module.scss';
-import { ShipMap } from '../../shared/map/map';
+import { ShipMap } from '../../shared/map/ship-map';
+import { createShipsFetcher } from '../../../shared/interactors/ships';
+import useSWR from 'swr';
+import { makeViewModel } from './ships-list/view-model';
+import { filterShips } from './ships-list/filter-ships';
 
 export const HomePage = (): JSX.Element => {
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [mapIsOpened, setMapIsOpened] = useState<boolean>(true);
+
+  const { fetcher, cacheKey } = createShipsFetcher();
+  const { data: ships } = useSWR(cacheKey, () => {
+    return fetcher().then((ships) => ships.map(makeViewModel));
+  });
+
+  const filtered = ships ? filterShips(ships, searchWords) : [];
 
   return (
     <>
@@ -24,16 +35,18 @@ export const HomePage = (): JSX.Element => {
           <span className="material-symbols-outlined">public</span>
         </button>
       </div>
-      <div className={`${styles.Layout_content} ${mapIsOpened ? styles['--mapIsOpened'] : ''}`}>
-        {mapIsOpened && (
-          <div className={styles.Layout_content_map}>
-            <ShipMap />
+      {filtered && (
+        <div className={`${styles.Layout_content} ${mapIsOpened ? styles['--mapIsOpened'] : ''}`}>
+          {mapIsOpened && (
+            <div className={styles.Layout_content_map}>
+              <ShipMap ships={filtered} />
+            </div>
+          )}
+          <div className={styles.Layout_content_shipList}>
+            <ShipsList ships={filtered} />
           </div>
-        )}
-        <div className={styles.Layout_content_shipList}>
-          <ShipsList searchWords={searchWords} />
         </div>
-      </div>
+      )}
     </>
   );
 };
