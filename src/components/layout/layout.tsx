@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from './layout.module.css';
-import { Header } from '../header';
+import { Header } from '../shared/header';
 
 interface Props {
   children: JSX.Element;

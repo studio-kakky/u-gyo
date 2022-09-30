@@ -1,27 +1,17 @@
-import useSWR from 'swr';
-import { createShipsFetcher } from '../../../../shared/interactors/ships';
 import styles from './index.module.scss';
 import { BusinessType } from '../../../../shared/models/ship/business-type';
-import { filterShips } from './filter-ships';
-import { makeViewModel } from './view-model';
+import { Ship } from '../../../../shared/models/ship/ship';
 
 interface Props {
-  searchWords?: string[];
+  ships: Ship[];
 }
 
-export const ShipsList = ({ searchWords }: Props): JSX.Element => {
-  const { fetcher, cacheKey } = createShipsFetcher();
-  const { data: ships } = useSWR(cacheKey, () => {
-    return fetcher().then((ships) => ships.map(makeViewModel));
-  });
-
-  const filtered = ships ? filterShips(ships, searchWords) : [];
-
+export const ShipsList = ({ ships }: Props): JSX.Element => {
   return (
     <>
-      {filtered && (
+      {ships && (
         <ul className={styles.List}>
-          {filtered.map((ship) => (
+          {ships.map((ship) => (
             <li className={styles.Item} key={ship.id}>
               <div className={styles.Item_place}>
                 <p className={styles.Item_prefecture}>{ship.prefecture}</p>
