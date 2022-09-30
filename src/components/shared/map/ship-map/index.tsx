@@ -24,7 +24,7 @@ export const ShipMap = ({ ships }: Props): JSX.Element => {
     <DeckGL
       initialViewState={INITIAL_VIEW_STATE}
       controller={true}
-      layers={[shipsMarker]}
+      layers={[shipsMarker.markers, shipsMarker.labels]}
       getTooltip={(v) => {
         if (!v.layer || !v.object) {
           return null;
