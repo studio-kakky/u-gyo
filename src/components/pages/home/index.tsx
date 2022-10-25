@@ -7,14 +7,13 @@ import styles from './index.module.scss';
 import { ShipMap } from '../../shared/map/ship-map';
 import { createShipsFetcher } from '../../../shared/interactors/ships';
 import useSWR from 'swr';
-import { makeViewModel } from './ships-list/view-model';
+import { makeViewModel, ShipViewModel } from './ships-list/view-model';
 import { filterShips } from './ships-list/filter-ships';
-import { Ship } from '../../../shared/models/ship/ship';
 
 export const HomePage = (): JSX.Element => {
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [mapIsOpened, setMapIsOpened] = useState<boolean>(true);
-  const [selected, setSelected] = useState<Ship>();
+  const [selected, setSelected] = useState<ShipViewModel>();
 
   const { fetcher, cacheKey } = createShipsFetcher();
   const { data: ships } = useSWR(cacheKey, () => {
@@ -46,7 +45,7 @@ export const HomePage = (): JSX.Element => {
         <div className={`${styles.Layout_content} ${mapIsOpened ? styles['--mapIsOpened'] : ''}`}>
           {mapIsOpened && (
             <div className={styles.Layout_content_map}>
-              <ShipMap ships={viewModels} />
+              <ShipMap ships={viewModels} onClickMarker={(ship) => setSelected(ship)} />
             </div>
           )}
           <div className={styles.Layout_content_shipList}>

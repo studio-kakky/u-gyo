@@ -4,9 +4,10 @@ import { ShipViewModel } from '../../../pages/home/ships-list/view-model';
 
 interface Props {
   ships: ShipViewModel[];
+  onClickMarker: (ship: ShipViewModel) => void;
 }
 
-export const makeShipMarkerLayer = ({ ships }: Props): { markers: IconLayer; labels?: TextLayer } => {
+export const makeShipMarkerLayer = ({ ships, onClickMarker }: Props): { markers: IconLayer; labels?: TextLayer } => {
   const markers = new IconLayer({
     id: 'shipsMarker',
     data: ships,
@@ -26,6 +27,10 @@ export const makeShipMarkerLayer = ({ ships }: Props): { markers: IconLayer; lab
     getPosition: (v: ShipViewModel) => [v.location.lng, v.location.lat],
     getSize: 6,
     getColor: [120, 140, 0],
+    onClick: (info) => {
+      const vm = info.object as ShipViewModel;
+      onClickMarker(vm);
+    },
   });
 
   const chars = ships.reduce((output, ship) => {

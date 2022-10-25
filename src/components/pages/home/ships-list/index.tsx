@@ -1,13 +1,12 @@
 import styles from './index.module.scss';
 import { BusinessType } from '../../../../shared/models/ship/business-type';
-import { Ship } from '../../../../shared/models/ship/ship';
 import { useEffect, useRef } from 'react';
 import { ShipViewModel } from './view-model';
 
 interface Props {
   ships: ShipViewModel[];
-  selectedShip?: Ship;
-  onSelectShip: (ship: Ship) => void;
+  selectedShip?: ShipViewModel;
+  onSelectShip: (ship: ShipViewModel) => void;
 }
 
 export const ShipsList = ({ ships, onSelectShip }: Props): JSX.Element => {

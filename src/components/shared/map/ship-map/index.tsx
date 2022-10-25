@@ -26,10 +26,11 @@ const INITIAL_VIEW_STATE: ViewState = {
 
 interface Props {
   ships: ShipViewModel[];
+  onClickMarker: (ship: ShipViewModel) => void;
 }
 
-export const ShipMap = ({ ships }: Props): JSX.Element => {
-  const shipsMarker = makeShipMarkerLayer({ ships });
+export const ShipMap = ({ ships, onClickMarker }: Props): JSX.Element => {
+  const shipsMarker = makeShipMarkerLayer({ ships, onClickMarker });
   const viewState = useMemo<ViewState>(() => {
     const selectedShip = ships.find((v) => v.isSelected);
     if (!selectedShip) {
@@ -44,22 +45,7 @@ export const ShipMap = ({ ships }: Props): JSX.Element => {
   }, [ships]);
 
   return (
-    <DeckGL
-      initialViewState={viewState}
-      controller={true}
-      layers={[shipsMarker.markers, shipsMarker.labels]}
-      getTooltip={(v) => {
-        if (!v.layer || !v.object) {
-          return null;
-        }
-
-        if (v.layer.id === 'shipsMarker') {
-          return v.object.title ? v.object.title : null;
-        }
-
-        return null;
-      }}
-    >
+    <DeckGL initialViewState={viewState} controller={true} layers={[shipsMarker.markers, shipsMarker.labels]}>
       <Map
         mapStyle="mapbox://styles/studio-kakky/ckuhpi5vm4jf717qm72rknulj"
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAP_BOX_TOKEN}
