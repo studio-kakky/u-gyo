@@ -1,6 +1,7 @@
 import styles from './index.module.scss';
 import { BusinessType } from '../../../../shared/models/ship/business-type';
 import { Ship } from '../../../../shared/models/ship/ship';
+import { useEffect, useRef } from 'react';
 
 interface Props {
   ships: Ship[];
@@ -17,15 +18,27 @@ const isSame = (v1: Ship | undefined, v2: Ship | undefined): boolean => {
 };
 
 export const ShipsList = ({ ships, selectedShip, onSelectShip }: Props): JSX.Element => {
+  const selectedShipRef = useRef<HTMLLIElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (!selectedShipRef.current || !listRef.current) {
+      return;
+    }
+
+    window.scroll({ top: selectedShipRef.current.offsetTop - listRef.current.offsetTop });
+  }, [selectedShip]);
+
   return (
     <>
       {ships && (
-        <ul className={styles.List}>
+        <ul className={styles.List} ref={listRef}>
           {ships.map((ship) => (
             <li
               className={`${styles.Item} ${isSame(ship, selectedShip) ? styles['--selected'] : ''}`}
               key={ship.id}
               onClick={() => onSelectShip(ship)}
+              ref={isSame(ship, selectedShip) ? selectedShipRef : null}
             >
               <div className={styles.Item_place}>
                 <p className={styles.Item_prefecture}>{ship.prefecture}</p>
