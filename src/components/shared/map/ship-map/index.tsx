@@ -3,8 +3,8 @@ import DeckGL from '@deck.gl/react/typed';
 
 import { Map } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Ship } from '../../../../shared/models/ship/ship';
 import { makeShipMarkerLayer } from './make-maker-layer';
+import { ShipViewModel } from '../../../pages/home/ships-list/view-model';
 
 interface ViewState {
   longitude: number;
@@ -25,13 +25,13 @@ const INITIAL_VIEW_STATE: ViewState = {
 };
 
 interface Props {
-  ships: Ship[];
-  selectedShip?: Ship;
+  ships: ShipViewModel[];
 }
 
-export const ShipMap = ({ ships, selectedShip }: Props): JSX.Element => {
+export const ShipMap = ({ ships }: Props): JSX.Element => {
   const shipsMarker = makeShipMarkerLayer({ ships });
   const viewState = useMemo<ViewState>(() => {
+    const selectedShip = ships.find((v) => v.isSelected);
     if (!selectedShip) {
       return INITIAL_VIEW_STATE;
     }
@@ -41,7 +41,7 @@ export const ShipMap = ({ ships, selectedShip }: Props): JSX.Element => {
       latitude: selectedShip.location.lat,
       longitude: selectedShip.location.lng,
     };
-  }, [selectedShip]);
+  }, [ships]);
 
   return (
     <DeckGL

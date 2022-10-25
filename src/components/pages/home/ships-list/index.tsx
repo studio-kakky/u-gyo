@@ -2,22 +2,15 @@ import styles from './index.module.scss';
 import { BusinessType } from '../../../../shared/models/ship/business-type';
 import { Ship } from '../../../../shared/models/ship/ship';
 import { useEffect, useRef } from 'react';
+import { ShipViewModel } from './view-model';
 
 interface Props {
-  ships: Ship[];
+  ships: ShipViewModel[];
   selectedShip?: Ship;
   onSelectShip: (ship: Ship) => void;
 }
 
-const isSame = (v1: Ship | undefined, v2: Ship | undefined): boolean => {
-  if (!v1 || !v2) {
-    return false;
-  }
-
-  return v1.id === v2.id;
-};
-
-export const ShipsList = ({ ships, selectedShip, onSelectShip }: Props): JSX.Element => {
+export const ShipsList = ({ ships, onSelectShip }: Props): JSX.Element => {
   const selectedShipRef = useRef<HTMLLIElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -27,7 +20,7 @@ export const ShipsList = ({ ships, selectedShip, onSelectShip }: Props): JSX.Ele
     }
 
     window.scroll({ top: selectedShipRef.current.offsetTop - listRef.current.offsetTop });
-  }, [selectedShip]);
+  }, [ships]);
 
   return (
     <>
@@ -35,10 +28,10 @@ export const ShipsList = ({ ships, selectedShip, onSelectShip }: Props): JSX.Ele
         <ul className={styles.List} ref={listRef}>
           {ships.map((ship) => (
             <li
-              className={`${styles.Item} ${isSame(ship, selectedShip) ? styles['--selected'] : ''}`}
+              className={`${styles.Item} ${ship.isSelected ? styles['--selected'] : ''}`}
               key={ship.id}
               onClick={() => onSelectShip(ship)}
-              ref={isSame(ship, selectedShip) ? selectedShipRef : null}
+              ref={ship.isSelected ? selectedShipRef : null}
             >
               <div className={styles.Item_place}>
                 <p className={styles.Item_prefecture}>{ship.prefecture}</p>
