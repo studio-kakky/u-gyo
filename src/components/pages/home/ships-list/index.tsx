@@ -4,15 +4,29 @@ import { Ship } from '../../../../shared/models/ship/ship';
 
 interface Props {
   ships: Ship[];
+  selectedShip?: Ship;
+  onSelectShip: (ship: Ship) => void;
 }
 
-export const ShipsList = ({ ships }: Props): JSX.Element => {
+const isSame = (v1: Ship | undefined, v2: Ship | undefined): boolean => {
+  if (!v1 || !v2) {
+    return false;
+  }
+
+  return v1.id === v2.id;
+};
+
+export const ShipsList = ({ ships, selectedShip, onSelectShip }: Props): JSX.Element => {
   return (
     <>
       {ships && (
         <ul className={styles.List}>
           {ships.map((ship) => (
-            <li className={styles.Item} key={ship.id}>
+            <li
+              className={`${styles.Item} ${isSame(ship, selectedShip) ? styles['--selected'] : ''}`}
+              key={ship.id}
+              onClick={() => onSelectShip(ship)}
+            >
               <div className={styles.Item_place}>
                 <p className={styles.Item_prefecture}>{ship.prefecture}</p>
                 <p className={styles.Item_area}>{ship.area}</p>

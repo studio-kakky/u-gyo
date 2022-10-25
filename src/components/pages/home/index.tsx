@@ -9,10 +9,12 @@ import { createShipsFetcher } from '../../../shared/interactors/ships';
 import useSWR from 'swr';
 import { makeViewModel } from './ships-list/view-model';
 import { filterShips } from './ships-list/filter-ships';
+import { Ship } from '../../../shared/models/ship/ship';
 
 export const HomePage = (): JSX.Element => {
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [mapIsOpened, setMapIsOpened] = useState<boolean>(true);
+  const [selected, setSelected] = useState<Ship>();
 
   const { fetcher, cacheKey } = createShipsFetcher();
   const { data: ships } = useSWR(cacheKey, () => {
@@ -39,11 +41,11 @@ export const HomePage = (): JSX.Element => {
         <div className={`${styles.Layout_content} ${mapIsOpened ? styles['--mapIsOpened'] : ''}`}>
           {mapIsOpened && (
             <div className={styles.Layout_content_map}>
-              <ShipMap ships={filtered} />
+              <ShipMap ships={filtered} selectedShip={selected} />
             </div>
           )}
           <div className={styles.Layout_content_shipList}>
-            <ShipsList ships={filtered} />
+            <ShipsList ships={filtered} selectedShip={selected} onSelectShip={(ship) => setSelected(ship)} />
           </div>
         </div>
       )}
