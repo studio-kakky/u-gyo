@@ -1,18 +1,20 @@
 import { IconLayer, TextLayer } from '@deck.gl/layers/typed';
 import { Ship } from '../../../../shared/models/ship/ship';
+import { ShipViewModel } from '../../../pages/home/ships-list/view-model';
 
 interface Props {
-  ships: Ship[];
+  ships: ShipViewModel[];
+  onClickMarker: (ship: ShipViewModel) => void;
 }
 
-export const makeShipMarkerLayer = ({ ships }: Props): { markers: IconLayer; labels?: TextLayer } => {
+export const makeShipMarkerLayer = ({ ships, onClickMarker }: Props): { markers: IconLayer; labels?: TextLayer } => {
   const markers = new IconLayer({
     id: 'shipsMarker',
     data: ships,
     pickable: true,
-    getIcon: () => {
+    getIcon: (v: ShipViewModel) => {
       return {
-        url: '/assets/marker/pin.png',
+        url: v.isSelected ? '/assets/marker/pin_selected.png' : '/assets/marker/pin.png',
         x: 50,
         y: 0,
         anchorY: 143,
@@ -22,9 +24,13 @@ export const makeShipMarkerLayer = ({ ships }: Props): { markers: IconLayer; lab
       };
     },
     sizeScale: 5,
-    getPosition: (v: Ship) => [v.location.lng, v.location.lat],
+    getPosition: (v: ShipViewModel) => [v.location.lng, v.location.lat],
     getSize: 6,
     getColor: [120, 140, 0],
+    onClick: (info) => {
+      const vm = info.object as ShipViewModel;
+      onClickMarker(vm);
+    },
   });
 
   const chars = ships.reduce((output, ship) => {

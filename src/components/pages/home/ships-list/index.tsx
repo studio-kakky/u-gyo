@@ -1,18 +1,37 @@
 import styles from './index.module.scss';
 import { BusinessType } from '../../../../shared/models/ship/business-type';
-import { Ship } from '../../../../shared/models/ship/ship';
+import { useEffect, useRef } from 'react';
+import { ShipViewModel } from './view-model';
 
 interface Props {
-  ships: Ship[];
+  ships: ShipViewModel[];
+  selectedShip?: ShipViewModel;
+  onSelectShip: (ship: ShipViewModel) => void;
 }
 
-export const ShipsList = ({ ships }: Props): JSX.Element => {
+export const ShipsList = ({ ships, onSelectShip }: Props): JSX.Element => {
+  const selectedShipRef = useRef<HTMLLIElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (!selectedShipRef.current || !listRef.current) {
+      return;
+    }
+
+    window.scroll({ top: selectedShipRef.current.offsetTop - listRef.current.offsetTop });
+  }, [ships]);
+
   return (
     <>
       {ships && (
-        <ul className={styles.List}>
+        <ul className={styles.List} ref={listRef}>
           {ships.map((ship) => (
-            <li className={styles.Item} key={ship.id}>
+            <li
+              className={`${styles.Item} ${ship.isSelected ? styles['--selected'] : ''}`}
+              key={ship.id}
+              onClick={() => onSelectShip(ship)}
+              ref={ship.isSelected ? selectedShipRef : null}
+            >
               <div className={styles.Item_place}>
                 <p className={styles.Item_prefecture}>{ship.prefecture}</p>
                 <p className={styles.Item_area}>{ship.area}</p>

@@ -8,6 +8,12 @@
 .Item {
   width: 100%;
   margin-bottom: 20px;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  &.--selected {
+    background-color: rgb(60, 170, 8, .16);
+  }
   &_header {
     display: flex;
     justify-content: flex-start;

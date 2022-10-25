@@ -7,19 +7,25 @@ import styles from './index.module.scss';
 import { ShipMap } from '../../shared/map/ship-map';
 import { createShipsFetcher } from '../../../shared/interactors/ships';
 import useSWR from 'swr';
-import { makeViewModel } from './ships-list/view-model';
+import { makeViewModel, ShipViewModel } from './ships-list/view-model';
 import { filterShips } from './ships-list/filter-ships';
 
 export const HomePage = (): JSX.Element => {
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [mapIsOpened, setMapIsOpened] = useState<boolean>(true);
+  const [selected, setSelected] = useState<ShipViewModel>();
 
   const { fetcher, cacheKey } = createShipsFetcher();
   const { data: ships } = useSWR(cacheKey, () => {
-    return fetcher().then((ships) => ships.map(makeViewModel));
+    return fetcher();
   });
 
-  const filtered = ships ? filterShips(ships, searchWords) : [];
+  const viewModels = ships
+    ? filterShips(
+        ships.map((v) => makeViewModel(v, selected)),
+        searchWords,
+      )
+    : [];
 
   return (
     <>
@@ -35,15 +41,15 @@ export const HomePage = (): JSX.Element => {
           <span className="material-symbols-outlined">public</span>
         </button>
       </div>
-      {filtered && (
+      {viewModels && (
         <div className={`${styles.Layout_content} ${mapIsOpened ? styles['--mapIsOpened'] : ''}`}>
           {mapIsOpened && (
             <div className={styles.Layout_content_map}>
-              <ShipMap ships={filtered} />
+              <ShipMap ships={viewModels} onClickMarker={(ship) => setSelected(ship)} />
             </div>
           )}
           <div className={styles.Layout_content_shipList}>
-            <ShipsList ships={filtered} />
+            <ShipsList ships={viewModels} onSelectShip={(ship) => setSelected(ship)} />
           </div>
         </div>
       )}
